@@ -1,15 +1,16 @@
 import vk_api 
-from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
+from vk_api.longpoll import VkLongPoll, VkEventType
 from config import tkn
 
 session = vk_api.VkApi(token = tkn)
-longpoll =  VkBotLongPoll(session, 208438501)
+longpoll =  VkLongPoll(session)
+
 print("starting bot")
 def Send(id, text):
-    session.method('messages.send', {'user_id' : id, 'message' : text, 'random_id' : 0})
+    session.method('messages.send', {'chat_id' : id, 'message' : text, 'random_id' : 0})
 
 for event in longpoll.listen():
-    if event.type == VkBotEventType.MESSAGE_NEW and event.from_chat:
-        id = event.user_id
+    if event.type == VkEventType.MESSAGE_NEW and event.from_chat and event.to_me:
+        id = event.chat_id
         message = event.text.lower()
-        Send(id, 'COCK')
+        Send(id, message)
