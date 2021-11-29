@@ -98,11 +98,6 @@ print('Правильность при испытании: %.3f'
      % clf.score(X_test, y_test))
 
 
-# In[15]:
-
-
-import numpy as np
-
 
 # In[18]:
 
