@@ -9,7 +9,7 @@ longpoll =  VkLongPoll(session)
 
 vk_session = session.get_api()
 
-clf = pickle.load(open(os.path.join('model.pkl'), 'rb'))
+clf = pickle.load(open(os.path.join('model_new.pkl'), 'rb'))
 
 print("starting bot")
 def Send(id, text):
@@ -20,5 +20,8 @@ for event in longpoll.listen():
         id = event.chat_id
         message = event.text.lower()
         name = event.chat_id
-        if clf.predict([message]) == [1]:            
+        if clf.predict_proba([message])[0][0] > 0.12:
+            predict = 0
+        else:
+            predict = 1
             Send(id, f'https://vk.com/id{event.user_id}, не ругайтесь')
